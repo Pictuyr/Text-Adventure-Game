@@ -31,6 +31,8 @@ newlistofapartmentitems = 0
 searched = 0
 playercmd = 'error'
 
+money = 0
+
 playerhp = 30
 enemyhp = 10
 
@@ -128,9 +130,7 @@ def apartment():
               "help your groggy awakening.\n")
 
     while loop == 1:
-        if loop == 1:
-            playercmd = input('\n')
-
+        playercmd = input('\n')
         if playercmd.lower() in {'go for a smoke', 'go for smoke', 'smoke', 'go smoke', 'go to smoke'}:
             newprint("\nYou get up from your bed and walk over to your foggy apartment window. It's raining outside")
             newprint("\nTaking your last cigarette off of your desk, you put it into your mouth")
@@ -158,8 +158,7 @@ def apartment():
         loop = 3
 
     while loop == 3:
-        if loop == 3:
-            playercmd = input('\n')
+        playercmd = input('\n')
         if playercmd.lower() in {'read', 'read newspaper', 'read it', 'look at newspaper', 'look', 'read it',
                                  'pick up newspaper', 'pick it up', 'pick up', 'look it up'}:
             newprint("\nYou decide to pickup the newspaper and read it")
@@ -181,120 +180,134 @@ def apartment():
 
     while loop == 4:
         apartmentitems()
-        if loop == 4:
+        playercmd = input('\n')
+        if playercmd.lower() in ('go to coat-hanger', 'walk to coat-hanger'):
+            newprint("\nYou walk over to the coat-hanger by the apartment's exit")
+            newprint('\nIt has your brown overcoat and classy hat')
+            yesorno = input('\nTake your coat and hat?\n')
+            if yesorno.lower() in {'yes', 'yeah'}:
+                newprint('\nYou take your clothes\n')
+                coatandhat += 1
+            if yesorno.lower() in {'no', ''}:
+                loop = 4
+
+        if playercmd.lower() in ('go to desk', 'walk to desk', 'go desk', 'walk desk'):
+            loop = 5
+
+        while loop == 5:
+            newprint("\nYou walk over to your desk")
+            newprint("\nThe desk is situated over rotted floorboards causing a creak everytime you move")
+            newprint("\nThe desk itself is not in quality condition")
+            newprint("\nThe metal legs show signs of rusting and the wood is full of scratches and stains")
+            cameraandid()
+            deskcmd = input('\n')
+            if deskcmd.lower() in {'take camera', 'pick up camera'}:
+                newprint("\nYou think it'd be best to take photos of the crime scene")
+                newprint("\nYou take your polaroid camera\n")
+                camera = 1
+            if deskcmd.lower() in {'take id', 'pick up id'}:
+                newprint("\nYou should probably take this incase police show up")
+                newprint('\nYou pick up your id\n')
+                detectiveid = 1
+            if deskcmd.lower() in {'look at paper', 'search papers', 'search folders', 'look at folders',
+                                   'search ',
+                                   'mess',
+                                   'search desk',
+                                   'pickup paper'}:
+                newprint('\nYou go through your mess of papers and folders')
+                newprint('\nWhile going through, you spot a page containing underlined text')
+                newprint(UNDERLINE + "\nA Study in Scarlet, Publication" + END)
+                newprint("\nYou wonder if it's important\n")
+                searched = 1
+            if deskcmd.lower() in {'leave', 'walk away', 'leave desk', 'walk away from desk', ''}:
+                loop = 4
+
+        if playercmd.lower() in ('go to safe', 'walk to safe', 'go safe', ' walk safe'):
+            newprint('\nYou walk over to your safe')
+            newprint("\nAlthough your neighbourhood is quiet, you still worry about thieves")
+            newprint("\nYou set a password for it, but you don't quite remember it\n")
             playercmd = input('\n')
-            if playercmd.lower() in ('go to coat-hanger', 'walk to coat-hanger'):
-                newprint("\nYou walk over to the coat-hanger by the apartment's exit")
-                newprint('\nIt has your brown overcoat and classy hat')
-                yesorno = input('\nTake your coat and hat?\n')
-                if yesorno.lower() in {'yes', 'yeah'}:
-                    newprint('\nYou take your clothes\n')
-                    coatandhat += 1
-                if yesorno.lower() in {'no', ''}:
-                    loop = 4
-
-            if playercmd.lower() in ('go to desk', 'walk to desk', 'go desk', 'walk desk'):
-                loop = 5
-
-            while loop == 5:
-                if loop == 5:
-                    newprint("\nYou walk over to your desk")
-                    newprint("\nThe desk is situated over rotted floorboards causing a creak everytime you move")
-                    newprint("\nThe desk itself is not in quality condition")
-                    newprint("\nThe metal legs show signs of rusting and the wood is full of scratches and stains")
-                    cameraandid()
-                    deskcmd = input('\n')
-                    if deskcmd.lower() in {'take camera', 'pick up camera'}:
-                        newprint("\nYou think it'd be best to take photos of the crime scene")
-                        newprint("\nYou take your polaroid camera\n")
-                        camera = 1
-                    if deskcmd.lower() in {'take id', 'pick up id'}:
-                        newprint("\nYou should probably take this incase police show up")
-                        newprint('\nYou pick up your id\n')
-                        detectiveid = 1
-                    if deskcmd.lower() in {'look at paper', 'search papers', 'search folders', 'look at folders',
-                                           'search ',
-                                           'mess',
-                                           'search desk',
-                                           'pickup paper'}:
-                        newprint('\nYou go through your mess of papers and folders')
-                        newprint('\nWhile going through, you spot a page containing underlined text')
-                        newprint(UNDERLINE + "\nA Study in Scarlet, Publication" + END)
-                        newprint("\nYou wonder if it's important\n")
-                        searched = 1
-                        leavedesk = input('\nWould you like to leave? ')
-                        if leavedesk.lower() in {'yes', 'yeah'}:
-                            loop = 4
-                        else:
-                            loop = 5
-                    if deskcmd.lower() in {'leave', 'walk away', 'leave desk', 'walk away from desk', ''}:
+            if playercmd.lower() in (
+                    'open safe', 'unlock safe', 'use safe', 'use password', 'input password', 'put password',
+                    'type password'):
+                opensafe = input('\nPlease input safe password: ')
+                if opensafe in '1887':
+                    newprint('\nYou unlocked the safe!')
+                    newprint("\nIt only contains your gun and full clip for your revolver")
+                    takegun = input('\nTake gun and ammo? ')
+                    if takegun.lower() in ('yes', 'yeah'):
+                        newprint('\nYou place your gun in your leather holster\n')
+                        ammo += 6
+                        gun = 1
                         loop = 4
-
-            if playercmd.lower() in ('go to safe', 'walk to safe', 'go safe', ' walk safe'):
-                newprint('\nYou walk over to your safe')
-                newprint("\nAlthough your neighbourhood is quiet, you still worry about thieves")
-                newprint("\nYou set a password for it, but you don't quite remember it\n")
-                playercmd = input('\n')
-                if playercmd.lower() in (
-                        'open safe', 'unlock safe', 'use safe', 'use password', 'input password', 'put password',
-                        'type password'):
-                    opensafe = input('\nPlease input safe password: ')
-                    if opensafe in '1887':
-                        newprint('\nYou unlocked the safe!')
-                        newprint("\nIt only contains your gun and full clip for your revolver")
-                        takegun = input('\nTake gun and ammo? ')
-                        if takegun.lower() in ('yes', 'yeah'):
-                            newprint('\nYou place your gun in your leather holster\n')
-                            ammo += 6
-                            gun = 1
-                            loop = 4
-                        else:
-                            loop = 4
                     else:
-                        newprint('\nThat is not the password\n')
                         loop = 4
                 else:
+                    newprint('\nThat is not the password\n')
                     loop = 4
+            else:
+                loop = 4
 
+        if playercmd.lower() in (
+                'go to coffee maker', 'go to kitchen', 'walk to coffee maker', 'walk to kitchen', 'go in kitchen',
+                'walk in kitchen', 'go to coffee machine'):
+            newprint('\nYou walk to the kitchen')
+            newprint("\nIt's quite bare of appliances and dinnerware, but you have the essentials")
+            newprint(
+                "\nYou left a cup of coffee on the kitchen table from yesterday, you think that you'll wash it "
+                "eventually")
+            newprint("\nIn fact, your sink holds plates and mugs that you should really be cleaning")
+            newprint("\nOtherwise, on the kitchen counter is a coffee machine\n")
+            playercmd = input('\n')
             if playercmd.lower() in (
-                    'go to coffee maker', 'go to kitchen', 'walk to coffee maker', 'walk to kitchen', 'go in kitchen',
-                    'walk in kitchen', 'go to coffee machine'):
-                newprint('\nYou walk to the kitchen')
-                newprint("\nIt's quite bare of appliances and dinnerware, but you have the essentials")
-                newprint(
-                    "\nYou left a cup of coffee on the kitchen table from yesterday, you think that you'll wash it "
-                    "eventually")
-                newprint("\nIn fact, your sink holds plates and mugs that you should really be cleaning")
-                newprint("\nOtherwise, on the kitchen counter is a coffee machine\n")
-                playercmd = input('\n')
-                if playercmd.lower() in (
-                        'clean dishes', 'go to clean dishes', 'clean cup', 'wash cup', 'wash dishes',
-                        'go to wash dishes',
-                        'go to sink', 'walk to sink'):
-                    newprint("\nUnfortunately, you are much too pre-occupied with the current case to do your dishes")
-                if playercmd.lower() in ('use coffee machine', 'turn on coffee machine', 'make coffee', 'use coffee '
-                                                                                                        'maker'):
-                    newprint("\nPerhaps having a cup of coffee will ease your mind")
-                    newprint("\nYou take your coffee grinds and water and put them into the machine")
-                    newprint("\nIt still amazes you how it works, you only bought it a month ago")
-                    newprint("\n.")
-                    newprint("\n.")
-                    newprint("\n.")
-                    newprint("\nIt's done")
-                    newprint("\nAs soon as it cools down enough you drink it down\n")
-                    caffeinated = 1
-                if playercmd.lower() in 'leave':
-                    loop = 4
-            if playercmd.lower() in ('leave', 'leave room', 'leave apartment'):
-                newprint("\nIt's time you get to investigating the trepid case at hand\n")
-                store()
+                    'clean dishes', 'go to clean dishes', 'clean cup', 'wash cup', 'wash dishes',
+                    'go to wash dishes',
+                    'go to sink', 'walk to sink'):
+                newprint("\nUnfortunately, you are much too pre-occupied with the current case to do your dishes")
+            if playercmd.lower() in ('use coffee machine', 'turn on coffee machine', 'make coffee', 'use coffee '
+                                                                                                    'maker'):
+                newprint("\nPerhaps having a cup of coffee will ease your mind")
+                newprint("\nYou take your coffee grinds and water and put them into the machine")
+                newprint("\nIt still amazes you how it works, you only bought it a month ago")
+                newprint("\n.")
+                newprint("\n.")
+                newprint("\n.")
+                newprint("\nIt's done")
+                newprint("\nAs soon as it cools down enough you drink it down\n")
+                caffeinated = 1
+            if playercmd.lower() in 'leave':
+                loop = 4
+        if playercmd.lower() in ('leave', 'leave room', 'leave apartment'):
+            newprint("\nIt's time you get to investigating the trepid case at hand\n")
+            store()
         else:
             newprint('\nI dont understand that command\n')
 
 
 def store():
-    newprint('\nyou go to store lol')
+    global loop, money
+    newprint('\nYou exit your apartment building into the pouring night and start walking towards your vehicle')
+    newprint('\nA frigid night, the wind blows droplets into your face')
+    newprint("\nYou get into your beaten up car, it's not much but it's yours")
+    newprint("\nAs you start your car, you notice that it doesn't have much fuel")
+    newprint('\nIt might be best to drive to the gas station and buy gas for the trip\n')
+    newprint("\n    ____")
+    newprint("\n __/  |_\_")
+    newprint("\n|  _     _``-.")
+    newprint("\n'-(_)---(_)--'")
+    newprint("\n=================================================\n")
+    newprint("\nYou arrive at the gas station")
+    newprint("\nStepping outside of the car, you approach the station's store")
+    newprint('\nIt only opened just an 45 minutes ago.')
+    newprint("\nThere's nobody here besides the teenage cashier")
+    loop = 6
+    while loop == 6:
+        newprint('\nYou take out your wallet and see that you have {}' .format(money))
 
+        newprint('\nLooking around you see')
+
+def storeoptions():
+    global 
 
 def cameraandid():
     global newdeskitems, detectiveid, camera
@@ -391,8 +404,8 @@ def progressbattle():
     turnnumber += 1
     newprint('\nTurn {}'.format(turnnumber))
     combatstate = "playerturn"
-    newprint('Your current HP is ' + str(playerhp))
-    newprint("The enemy's HP is " + str(enemyhp))
+    newprint('\nYour current HP is ' + str(playerhp))
+    newprint("\nThe enemy's HP is " + str(enemyhp))
 
 
 def checkforwin():
@@ -405,7 +418,7 @@ def checkforwin():
 
 def winstate():
     global outcome
-    newprint('\n')
+    newprint('\nYou win')
     outcome = 'playerwin'
 
 
@@ -515,3 +528,4 @@ def chancetohit(shootchance):
 
 
 maingame()
+
