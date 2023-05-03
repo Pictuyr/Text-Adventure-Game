@@ -29,6 +29,9 @@ caffeinated = 0
 newdeskitems = 0
 newlistofapartmentitems = 0
 searched = 0
+boughtammo = 0
+boughtcigarettes = 0
+petrol = 0
 playercmd = 'error'
 
 money = 0
@@ -42,6 +45,7 @@ enemyattack = 0
 combatstate = 'error'
 outcome = 'error'
 turnnumber = 0
+
 
 ammo = 0
 
@@ -226,8 +230,8 @@ def apartment():
             newprint('\nYou walk over to your safe')
             newprint("\nAlthough your neighbourhood is quiet, you still worry about thieves")
             newprint("\nYou set a password for it, but you don't quite remember it\n")
-            playercmd = input('\n')
-            if playercmd.lower() in (
+            safecmd = input('\n')
+            if safecmd.lower() in (
                     'open safe', 'unlock safe', 'use safe', 'use password', 'input password', 'put password',
                     'type password'):
                 opensafe = input('\nPlease input safe password: ')
@@ -277,37 +281,91 @@ def apartment():
                 caffeinated = 1
             if playercmd.lower() in 'leave':
                 loop = 4
+
         if playercmd.lower() in ('leave', 'leave room', 'leave apartment'):
             newprint("\nIt's time you get to investigating the trepid case at hand\n")
             store()
-        else:
-            newprint('\nI dont understand that command\n')
 
 
 def store():
-    global loop, money
+    global loop, money, playercmd, ammo, boughtammo, boughtcigarettes
     newprint('\nYou exit your apartment building into the pouring night and start walking towards your vehicle')
     newprint('\nA frigid night, the wind blows droplets into your face')
     newprint("\nYou get into your beaten up car, it's not much but it's yours")
     newprint("\nAs you start your car, you notice that it doesn't have much fuel")
     newprint('\nIt might be best to drive to the gas station and buy gas for the trip\n')
-    newprint("\n    ____")
-    newprint("\n __/  |_\_")
-    newprint("\n|  _     _``-.")
-    newprint("\n'-(_)---(_)--'")
+    newprint("\n            ____")
+    newprint("\n        __/  |_\_")
+    newprint("\n        |  _     _``-.")
+    newprint("\n        '-(O)---(O)--'")
     newprint("\n=================================================\n")
     newprint("\nYou arrive at the gas station")
     newprint("\nStepping outside of the car, you approach the station's store")
-    newprint('\nIt only opened just an 45 minutes ago.')
+    newprint('\nIt only opened just 45 minutes ago.')
     newprint("\nThere's nobody here besides the teenage cashier")
+    money += 20
     loop = 6
-    while loop == 6:
-        newprint('\nYou take out your wallet and see that you have {}' .format(money))
 
-        newprint('\nLooking around you see')
+    while loop == 6:
+        newprint('\nYou take out your wallet and see that you have ${}'.format(money))
+        newprint('\nLooking around, you see')
+        storeoptions()
+        playercmd = input('\n')
+        if playercmd.lower() in {'buy ammo', 'walk to ammo', 'walk to counter', 'go to counter', 'walk counter',
+                                 'buy cigarettes', 'buy cigarette', 'buy cigarette packs', 'buy ammunition'}:
+            loop = 7
+
+        while loop == 7:
+            newprint('\nYou walk over to the counter')
+            newprint('\nThe tired cashier greets you in a dull manner')
+            newprint('\nWhat would you like to buy?')
+            storecmd = input('\n')
+            if storecmd.lower() in {' ammo', 'buy ammo', 'ammunition', 'buy ammunition'} :
+                newprint('\nYou ask to buy moon clips for your revolver')
+                newprint('\nCashiers ask for $15, you oblige and hand over the money')
+                money -= 15
+                ammo += 12
+                newprint('You obtain TWELVE ROUNDS and lose FIFTEEN DOLLARS')
+            if storecmd.lower() in {'cigarettes', 'buy cigarettes', 'cigarette packs', 'cigarette pack', 'buy cigarette', 'buy cigarette pack', 'buy cigerette packs'}:
+                newprint('\nYou ask to buy a pack of cigarettes')
+                newprint('\nThe cashier asks for $5, you oblige and hand over the money')
+                money -= 5
+                cigarette += 12
+            if storecmd.lower() in {'leave', 'walk away from counter', 'walk away'}:
+                loop = 6
+
+        if playercmd.lower() in {'walk to petrol canisters', 'buy petrol canisters', 'buy fuel', 'buy petrol', 'buy gas', 'walk to gas', 'walk to fuel', 'go to back', 'walk to back'}:
+            newprint('\nYou walk over to the back where petrol canisters are located')
+            newprint('\nIt might be a good a idea to buy fuel incase I run out')
+            newprint('\nBuy fuel?\n')
+            petrolcmd = input('\n')
+            if petrolcmd.lower() in {'yes', 'yeah'}:
+                newprint('\nYou pick up a petrol canister and take it over to the front counter')
+                newprint('\nThe cashier helps you fill up the can')
+                newprint('\nIt cost you $15')
+                money -= 15
+                boughtpetrol = 1
+            if petrolcmd.lower() in {'no', 'nah', 'leave'}:
+                newprint('\nYou decide not to')
+
+
+
+
 
 def storeoptions():
-    global 
+    global money, boughtammo, petrol, boughtcigarettes
+    storeitems = ['\nPetrol canisters near the back', '\nCigarette packs at the counter', '\nAmmo behind the counter',
+                  '\nOr you can leave']
+    if petrol == 1 and boughtcigarettes == 1 or boughtammo == 1 and petrol == 1:
+        storeitems = ["\nYou don't have money to buy anything else"]
+    elif petrol == 1:
+        storeitems.remove('\nPetrol canisters near the back')
+    elif boughtammo == 1:
+        storeitems.remove('\nCigarette packs at the counter')
+    elif boughtcigarettes == 1:
+        storeitems.remove('\nAmmo behind the counter')
+    newprint(storeitems)
+
 
 def cameraandid():
     global newdeskitems, detectiveid, camera
@@ -456,11 +514,12 @@ def playerturnstate():
     global playercmd, combatstate, ammo
     newprint('\nIt is your turn\n')
     playercmd = input('\n')
-    if playercmd.lower() in {'shoot', 'shoot your gun', 'shoot your revolver', 'shoot enemy'}:
+    if playercmd.lower() in {'shoot', 'shoot your gun', 'shoot your revolver', 'shoot enemy', 'use gun', 'shoot gun'}:
         newprint('\nYou aim your six shooter at the enemy')
         shootchance = random.randint(1, 10)
         print(shootchance)
         chancetohit(shootchance)
+        ammo -= 1
         combatstate = "enemyturn"
 
     if playercmd.lower() in {'reload', 'reload gun', 'reload weapon'} and ammo > 6:
@@ -475,6 +534,7 @@ def playerturnstate():
 
     if playercmd.lower() in {'light', 'use lighter', 'use lighter on enemy', 'light enemy on fire'}:
         newprint('\n')
+
     checkforwin()
 
 
@@ -526,6 +586,4 @@ def chancetohit(shootchance):
         newprint('\nYou fire... and you completely miss')
         return
 
-
 maingame()
-
