@@ -348,6 +348,57 @@ def store():
             if petrolcmd.lower() in {'no', 'nah', 'leave'}:
                 newprint('\nYou decide not to')
 
+        if playercmd.lower() in {'leave', 'leave store'}:
+            newprint('\nYou leave the store with the items you bought')
+            newprint("\nIt's time to face the crime scene head on\n")
+            church()
+
+def church():
+    global sanity, cigarette, investigatedaltar, money
+    newprint('\nYou arrive at the scene of the burning, there is yellow tape covering the entire area')
+    newprint('\nTrying to supress the memories you duck under the tape and walk up the steps towards the church')
+    newprint('\nOne of its religious figures is still standing despite the fire, however its face is deformed')
+    newprint("\nAs you step through the burnt gates, the morning sun's warmth hits you in the face")
+    newprint("\nEverything is covered in ash, charred, or broken down")
+    newprint("\nYou feel that taking a photo of the crime scene would help connect the pieces\n")
+    sanity -= 10
+    loop = 8
+
+    while loop == 8:
+        newprint('\nLooking around you see')
+        churchoptions
+        playercmd = input('\n')
+
+        if playercmd.lower() in {'search altar', 'search the altar', 'investigate altar', 'investigate the altar', 'look at altar', 'look altar', 'walk to altar', 'walk altar', 'go to altar'}:
+            loop = 9
+
+            while loop == 9:
+                newprint('\nThe altar appears to be undamaged by the fire, quite peculiar')
+                newprint('\nYou step up to the front of the pulpit, its intricate carvings covered in ash but no signs of burning')
+                newprint('\nYou go around and walk up to the altar, there is a book and a small shelf area underneath\n')
+                altarcmd = input('\n')
+                if altarcmd.lower() in {'search book', 'examine book', 'investigate book', 'look at book'}:
+                    newprint('\nPicking up the book, you notice the leather has an ophidian pattern to it')
+                    newprint("\nThe book looks charred, but it's surprisingly fine on the inside")
+                    newprint('\nYou flip through the pages of the book, most of them are empty but...')
+                    newprint('\nYou find pages that have scrawled eldritch sketches in red ink')
+                    newprint('\nIt was as though they could only scratch the pages with their drawing tool')
+                    newprint('\nThis specific drawing seemed to be accompanied with hieroglyphics, but none of the symbols seem to be of middle eastern origin')
+                    newprint('\nThe composition seems to be a depiction of a man, in a room, surrounded by what you can deduce to be flames')
+                    newprint("\nYou're not sure what the accompanying text says\n")
+                if altarcmd.lower() in {'search shelf', 'search underneath', 'search small shelf', 'investigate shelf', 'investigate underneath', 'investigate small shelf', 'look underneath'}:
+                    newprint('\n')
+                if altercmd.lower ('leave', 'leave altar', 'walk away'):
+                    loop = 8
+
+
+def churchoptions():
+    global investigatedaltar
+    churchitems = ['\nThe altar that appears to be intact', '\nThe corpses on the pews', 'The steel cabinet', '\nThe trapdoor']
+
+    if investigatedaltar == 2:
+        churchitems.remove('\nThe altar that appears to be intact')
+
 
 
 
