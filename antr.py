@@ -41,6 +41,7 @@ investigatedshackles = 0
 investigatedmarkings = 0
 investigatedritual = 0
 money = 0
+codex = 0
 
 playerhp = 30
 sanity = 100
@@ -380,7 +381,7 @@ def store():
 
 
 def church():
-    global sanity, cigarette, investigatedaltar, investigatedcabinet, investigatedcorpse, money, loop, playercmd, evidence, smoked
+    global sanity, cigarette, investigatedaltar, investigatedcabinet, investigatedcorpse, money, loop, playercmd, evidence, smoked, codex
     newprint('\nYou arrive at the scene of the burning, there is yellow tape covering the entire area')
     newprint('\nTrying to supress the memories you duck under the tape and walk up the steps towards the church')
     newprint('\nOne of its religious figures is still standing despite the fire, however its face is deformed')
@@ -424,7 +425,11 @@ def church():
                     newprint(
                         '\nThe composition seems to be a depiction of a man, in a room, surrounded by what you can '
                         'deduce to be flames')
-                    newprint("\nYou're not sure what the accompanying text says\n")
+                    if codex == 0:
+                        newprint("\nYou're not sure what the accompanying text says\n")
+                    if codex == 1:
+                        newprint('\nThe accompanying text says MAY EIGHTEEN NINETEEN EIGHTY, JUDGEMENT AT APRIL SHRINE')
+                        newprint('\nWhatever that means')
                     if investigatedaltar > 2:
                         investigatedaltar += 1
                 if altarcmd.lower() in {'search shelf', 'search underneath', 'search small shelf', 'investigate shelf',
@@ -458,8 +463,11 @@ def church():
                 if wincheck == 1:
                     newprint("\nYou successfully defended against the bat's attack")
                     newprint('\nWhy was it so big?')
+                    newprint('\nYou find a book full of translations for hieroglyphics')
+                    newprint('\nThis might be useful somewhere else')
                     newprint('\nYou take a photo for evidence\n')
                     evidence += 1
+                    codex = 1
                 if wincheck == 2:
                     newprint(RED + '\nWhile you make your last stand against the man-sized bat')
                     newprint(RED + '\nYou feel weak in the knees, your body slumped, your heart racing')
@@ -490,7 +498,6 @@ def church():
                                  'look at trapdoor', 'look trapdoor', 'walk to trapdoor',
                                  'walk trapdoor', 'go to trapdoor'}:
             newprint('\nOpening the trapdoor, it descends down into a basement area')
-            newprint('\nThis will commence the second part of the game and you may not go back up')
             newprint('\nDescend?\n')
             trapdoorcmd = input('\n')
 
@@ -629,9 +636,31 @@ def door():
     newprint("\nHow the hell did it just move? Isn't it dead?")
     newprint('\nWhile your mind deliberates the possibilities, it rises to its feet')
     newprint("\nIts face eerily looks like someone you know...\n")
-    battlestate(1)
-    newprint('\n')
-
+    wincheck = battlestate(1)
+    if wincheck == 1:
+        newprint('\nYou are taken aback by the undead corpse')
+        newprint('\nA headache permeates throughout your mind')
+        newprint("\nIt's impossible to think straight")
+        newprint("\nThoughts race throughout your mind, every memory, every idea")
+        newprint('\nYou attempt to push through and head towards the door')
+        newprint('\nAt the door you take your hand')
+        newprint('\nPush the door open')
+        newprint('\n')
+        newprint('\n')
+        newprint('\n')
+        newprint("\nIt's the same room...?")
+        newprint('\nEND OF PART ONE')
+        return
+    if wincheck == 2:
+        newprint(RED + "\nThe corpse' constant screaming rattles your brain")
+        newprint(RED + '\nYou cover your ears but you feel blood start to leak')
+        newprint(RED + "\nThe walls around you turn into eyes and mouths")
+        newprint(RED + "\nRotting appendages shoot out of the walls")
+        newprint(RED + "\nThey grab you at your limbs")
+        newprint(RED + "\nThe room closes in on you")
+        newprint(RED + "\nIt consumes you whole")
+        newprint(RED + '\nYOU DIED FROM YOUR OWN MIND' + END)
+        return
 
 def trapdooroptions():
     global investigatedshackles, investigatedmarkings, investigatedritual
@@ -963,4 +992,4 @@ def chancetohit(shootchance):
         return
 
 
-door()
+start()
